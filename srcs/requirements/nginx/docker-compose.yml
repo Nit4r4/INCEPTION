@@ -1,0 +1,22 @@
+#--> PAS DE FICHIERS DOCKER COMPOSE DANS LES DOSSIERS MAIS UNIQUEMENT UN DOCKER COMPOSE A LA SOURCE 
+
+version: '3'
+services:
+  nginx:
+    build:
+      context: ./requirements/nginx
+    volumes:
+      - nginx-conf:/etc/nginx/conf.d
+    ports:
+      - "443:443"
+    depends_on:
+      - wordpress
+    networks:
+      - my-network
+    restart: always  # ou restart: on-failure
+
+# ... autres services ...
+
+networks:
+  my-network:
+    driver: bridge
