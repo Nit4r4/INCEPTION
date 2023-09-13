@@ -1,3 +1,15 @@
 .env
 .DS_Store
-./archive
+/Users/n1t4r4/Documents/42/INCEPTION/archive
+
+# # Ignorer un fichier spécifique
+# chemin/vers/le/fichier
+
+# # Ignorer un dossier spécifique
+# chemin/vers/le/dossier/
+
+# # Ignorer tous les fichiers .log dans n'importe quel dossier
+# *.log
+
+# # Ignorer tous les fichiers .tmp dans n'importe quel dossier et sous-dossiers
+# **/*.tmp
