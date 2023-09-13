@@ -1,0 +1,65 @@
+#docker-compose permet de lier les 3 containers entre eux
+
+version: '3'
+services:
+
+  nginx:
+    build:
+      context: ./requirements/nginx
+    volumes:
+      - nginx-conf:/etc/nginx/conf.d
+    # image: nginx ATTENTION va chercher l image en ligne, forbidden !
+    #Modifie le nom de l'adresse en ligne
+    container_name: nginx
+    restart: always
+    ports:
+      - "443:443" #port securise
+      # - "80:80" #pour le test
+    # depends_on:
+    #   - wordpress
+    networks:
+      - my-network # network docker qui fait le lien entre les containers
+
+  mariadb:
+    build:
+      context: ./requirements/mariadb
+    # volumes:
+    #   - mariadb-data:/var/lib/mysql
+    container_name: mariadb
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    env_file:
+      - .env
+    networks:
+      - my-network
+
+  wordpress:
+    build:
+      context: ./requirements/wordpress
+    volumes:
+      - wordpress-data:/var/www/html
+    container_name: wordpress
+    restart: always # ou restart: on-failure
+    environment:
+      WORDPRESS_DB_HOST: mariadb
+      WORDPRESS_DB_USER: ${MYSQL_USER}
+      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
+    depends_on:
+      - mariadb
+    networks:
+      - my-network
+
+volumes:
+  # wp-volume:
+  #   driver: local
+  # mariadb-data:
+  wordpress-data:
+  nginx-conf:
+
+networks:
+  my-network:
+    driver: bridge
