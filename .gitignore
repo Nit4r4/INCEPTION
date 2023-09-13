@@ -1,6 +1,8 @@
 .env
 .DS_Store
 /Users/n1t4r4/Documents/42/INCEPTION/archive
+./archive
+/archive
 
 # # Ignorer un fichier spécifique
 # chemin/vers/le/fichier
