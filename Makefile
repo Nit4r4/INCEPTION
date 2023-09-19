@@ -1,3 +1,5 @@
+-include srcs/.env
+
 # Define variables
 COMPOSE_FILE = srcs/docker-compose.yml
 
@@ -21,6 +23,9 @@ clean: stop
 	docker-compose -f $(COMPOSE_FILE) rm -f
 	docker volume prune -f
 	docker network prune -f
+
+fclean: clean
+	docker image prune -f
 
 # Restart Docker containers
 restart: stop run

@@ -7,13 +7,13 @@ mkdir -p /run/php #pour creer le dossier php-fpm
 cd /var/www/wordpress #pour se placer dans le dossier wordpress
 
 # if ! wp-config.php, le creer
-wp-config creat --allow-root \
-				--dbname=$DB_NAME \
-				--dbuser=$DB_USER \
-				--dbpass=$DB_PASSWORD \
-				--dbhost=$DB_HOST \ 
-				#--dbhost=mariadb:3306 \ #si on utilise le nom du service dans le docker-compose
-				--path='/var/www/wordpress'
+wp config create --allow-root \
+				 --dbname=$DB_NAME \
+				 --dbuser=$DB_USER \
+				 --dbpass=$DB_PASSWORD \
+				 --dbhost=$DB_HOST:3306 \
+				#  --path='/var/www/wordpress'
+				# --dbhost=mariadb:3306 \ #si on utilise le nom du service dans le docker-compose
 
 #pour configurer le econd utilisateur et qu il se connect autoumatiquement
 wp core install --allow-root \
@@ -21,7 +21,6 @@ wp core install --allow-root \
 				--title=$WP_TITLE \
 				--admin_user=$WP_ADMIN_NAME \
 				--admin_password=$WP_ADMIN_PWD \
-				# --admin_email=$USER_EMAIL \
 				--skip-email \
 				--path='/var/www/wordpress'
 

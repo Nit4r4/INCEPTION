@@ -25,9 +25,9 @@ COPY ./tools/ /usr/local/bin
 
 EXPOSE 9000
 
-RUN chmod +x /entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # CMD ["/usr/sbin/php-fpm7.3", "--nodaemonize"] 
 
 #lance le script d'entrée dans le container qui lance php-fpm7.3 --nodaemonize et le service mysql start.
-CMD ["/entrypoint.sh"] 
+CMD ["/usr/local/bin/entrypoint.sh"] 

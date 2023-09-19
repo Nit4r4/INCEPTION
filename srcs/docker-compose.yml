@@ -1,6 +1,6 @@
 #docker-compose permet de lier les 3 containers entre eux
 
-version: '3'
+version: '3.9'
 services:
 
 
@@ -10,20 +10,20 @@ services:
     build:
       context: ./requirements/nginx
     volumes:
-      - wordpress-data:/var/www/html #ou - wordpress-data:/var/www/wordpress ?
-      # - nginx-data:/var/www/nginx #pourquoi pas des nom de volumes differents ? pour securiser 
+      - wordpress-data:/var/www/wordpress
+      # - nginx-data:/var/www/nginx #pourquoi pas des nom de volumes differents ? pour securiser mais pas utile ici
     # image: nginx ATTENTION va chercher l image en ligne, forbidden !
     #Modifie le nom de l'adresse en ligne
     container_name: nginx
     restart: always
     ports:
-      - "443:443" #port securise
+      - "443:443" #port securise externe
       # - "80:80" #pour le test
     depends_on:
       - wordpress
       - mariadb
     networks:
-      - my-network # network docker qui fait le lien entre les containers
+      - inceptionNetwork # network docker qui fait le lien entre les containers
 
 
 #-------------------MARIADB---------------------#
@@ -31,13 +31,18 @@ services:
   mariadb:
     build:
       context: ./requirements/mariadb
+      args:
+        - DB_NAME=${DB_NAME}
+        - DB_USER=${DB_USER}
+        - DB_PASSWORD=${DB_PASSWORD} # va chercher dans le .env
+        - DB_ROOT_PASSWORD=${DB_ROOT_PASSWORD} # va chercher dans le .env
     volumes:
-       - mariadb-data:/var/lib/mysql
-      # - wordpress-data:/var/www/html #ou - wordpress-data:/var/www/wordpress ?
+      #  - mariadb-data:/var/lib/mysql
+      - wordpress-data:/var/www/wordpress
     container_name: mariadb
     restart: always
     environment:
-      DB_DATABASE: ${DB_DATABASE}
+      DB_NAME: ${DB_NAME}
       DB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
@@ -50,7 +55,7 @@ services:
     env_file:
       - .env
     networks:
-      - my-network
+      - inceptionNetwork
 
 
 #-------------------WORDPRESS---------------------#
@@ -59,25 +64,23 @@ services:
     build:
       context: ./requirements/wordpress
     volumes:
-      - wordpress-data:/var/www/html #ou - wordpress-data:/var/www/wordpress ?
+      - wordpress-data:/var/www/wordpress
     container_name: wordpress
     restart: always # ou restart: on-failure
-    environment:
-      WORDPRESS_DB_HOST: mariadb
-      WORDPRESS_DB_USER: ${DB_USER}
-      WORDPRESS_DB_PASSWORD: ${DB_PASSWORD}
+    env_file:
+      - .env
     depends_on:
       - mariadb
     networks:
-      - my-network
+      - inceptionNetwork
 
 volumes:
-  # wp-volume:
-  #   driver: local
-  # mariadb-data:
-  wordpress-data:
+  wp-volume:
+    driver: local
+  mariadb-data:
+  wordpress-data: 
   nginx-conf:
 
 networks:
-  my-network:
+  inceptionNetwork:
     driver: bridge
