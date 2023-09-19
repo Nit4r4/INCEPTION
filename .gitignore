@@ -1,8 +1,16 @@
+#Logs
 .env
-.DS_Store
+
+#OS generated files
+*.DS_Store
+
+#Archives
 /Users/n1t4r4/Documents/42/INCEPTION/archive
 ./archive
 /archive
+
+
+#----------- INFOS ------------#
 
 # # Ignorer un fichier spécifique
 # chemin/vers/le/fichier

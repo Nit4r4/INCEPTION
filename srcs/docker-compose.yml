@@ -3,6 +3,9 @@
 version: '3'
 services:
 
+
+#---------------------NGINX------------------------#
+
   nginx:
     build:
       context: ./requirements/nginx
@@ -20,6 +23,9 @@ services:
     networks:
       - my-network # network docker qui fait le lien entre les containers
 
+
+#-------------------MARIADB---------------------#
+
   mariadb:
     build:
       context: ./requirements/mariadb
@@ -36,6 +42,9 @@ services:
       - .env
     networks:
       - my-network
+
+
+#-------------------WORDPRESS---------------------#
 
   wordpress:
     build:
