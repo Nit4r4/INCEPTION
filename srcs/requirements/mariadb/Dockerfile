@@ -2,10 +2,11 @@ FROM debian:buster
 
 RUN apt-get update && apt-get -y install mariadb-server mariadb-client
 
-ARG MYSQL_USER
-ARG MYSQL_DATABASE
-ARG MYSQL_PASSWORD
-ARG MYSQL_ROOT_PASSWORD
+#on declare les variables d environnement (DB == MYQSL mais en open source again)
+ARG DB_USER
+ARG DB_DATABASE
+ARG DB_PASSWORD
+ARG DB_ROOT_PASSWORD
 
 #on copie les fichiers dans le conteneur
 COPY ./conf/50-server.conf /etc/mysql/mariadb.conf.d/ 

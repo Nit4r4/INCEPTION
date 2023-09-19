@@ -10,7 +10,8 @@ services:
     build:
       context: ./requirements/nginx
     volumes:
-      - nginx-conf:/etc/nginx/conf.d
+      - wordpress-data:/var/www/html #ou - wordpress-data:/var/www/wordpress ?
+      # - nginx-data:/var/www/nginx #pourquoi pas des nom de volumes differents ? pour securiser 
     # image: nginx ATTENTION va chercher l image en ligne, forbidden !
     #Modifie le nom de l'adresse en ligne
     container_name: nginx
@@ -18,8 +19,9 @@ services:
     ports:
       - "443:443" #port securise
       # - "80:80" #pour le test
-    # depends_on:
-    #   - wordpress
+    depends_on:
+      - wordpress
+      - mariadb
     networks:
       - my-network # network docker qui fait le lien entre les containers
 
@@ -29,15 +31,22 @@ services:
   mariadb:
     build:
       context: ./requirements/mariadb
-    # volumes:
-    #   - mariadb-data:/var/lib/mysql
+    volumes:
+       - mariadb-data:/var/lib/mysql
+      # - wordpress-data:/var/www/html #ou - wordpress-data:/var/www/wordpress ?
     container_name: mariadb
     restart: always
     environment:
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      DB_DATABASE: ${DB_DATABASE}
+      DB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 2s
+      timeout: 10s  # wait for mariadb to be ready
+      retries: 4
+      start_period: 10s
     env_file:
       - .env
     networks:
@@ -50,13 +59,13 @@ services:
     build:
       context: ./requirements/wordpress
     volumes:
-      - wordpress-data:/var/www/html
+      - wordpress-data:/var/www/html #ou - wordpress-data:/var/www/wordpress ?
     container_name: wordpress
     restart: always # ou restart: on-failure
     environment:
       WORDPRESS_DB_HOST: mariadb
-      WORDPRESS_DB_USER: ${MYSQL_USER}
-      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
+      WORDPRESS_DB_USER: ${DB_USER}
+      WORDPRESS_DB_PASSWORD: ${DB_PASSWORD}
     depends_on:
       - mariadb
     networks:
