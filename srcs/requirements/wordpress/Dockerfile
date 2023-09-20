@@ -20,13 +20,20 @@ RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.ph
 RUN chmod +x wp-cli.phar
 RUN mv wp-cli.phar /usr/local/bin/wp
 
+#pour installer le package vim pour terminal docker
+RUN apt install vim -y 
+
 COPY ./conf/www.conf /etc/php/7.3/fpm/pool.d
 COPY ./tools/ /usr/local/bin
+# COPY ./conf/wp-config.php /var/www/wordpress/wp-config.php ne fonctionne quand meme pas
 
-EXPOSE 9000
+#copie le fichier entrypoint.sh
+COPY ./tools/entrypoint.sh /usr/local/bin/entrypoint.sh
+# RUN /usr/local/bin/entrypoint.sh # pas besoin, normalmeent WP le fait authomatiquement
 
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
+EXPOSE 9000
 # CMD ["/usr/sbin/php-fpm7.3", "--nodaemonize"] 
 
 #lance le script d'entrée dans le container qui lance php-fpm7.3 --nodaemonize et le service mysql start.

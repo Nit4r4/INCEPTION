@@ -14,7 +14,7 @@ COPY ./conf/my.cnf /etc/mysql/my.cnf
 COPY ./tools/mariadb.sh /tmp/mariadb.sh
 
 #TEST
-COPY ./tools/init_db.sql.template /tmp/init_db.sql.template
+# COPY ./tools/init_db.sql.template /tmp/init_db.sql.template
 
 #pour installer le package vim pour terminal docker
 RUN apt install vim -y 

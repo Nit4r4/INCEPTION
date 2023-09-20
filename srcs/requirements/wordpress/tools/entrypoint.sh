@@ -32,3 +32,9 @@ wp user create --allow-root \
 				# --path='/var/www/wordpress' #pas besoin car deja dans le dossier
 
 /usr/sbin/php-fpm7.3 --nodaemonize #pour lancer php-fpm en foreground (1er plan)
+
+						
+						
+						# --------- INFOS ----------- #
+# Dans ce scribt pas besoin de spécifier DB_ROOT_PASSWORD car il est destiné à la 
+# configuration de WordPress, pas à la gestion de la base de données MariaDB elle-même.

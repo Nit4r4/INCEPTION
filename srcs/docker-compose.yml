@@ -41,13 +41,13 @@ services:
       - wordpress-data:/var/www/wordpress
     container_name: mariadb
     restart: always
-    environment:
-      DB_NAME: ${DB_NAME}
-      DB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
-      DB_USER: ${DB_USER}
-      DB_PASSWORD: ${DB_PASSWORD}
+    # environment:
+    #   DB_NAME: ${DB_NAME}
+    #   DB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+    #   DB_USER: ${DB_USER}
+    #   DB_PASSWORD: ${DB_PASSWORD}
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "mariadb", "localhost"] #ajout de mariadb pour test psw
       interval: 2s
       timeout: 10s  # wait for mariadb to be ready
       retries: 4
