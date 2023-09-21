@@ -37,8 +37,8 @@ services:
         - DB_PASSWORD=${DB_PASSWORD} # va chercher dans le .env
         - DB_ROOT_PASSWORD=${DB_ROOT_PASSWORD} # va chercher dans le .env
     volumes:
-      #  - mariadb-data:/var/lib/mysql
       - wordpress-data:/var/www/wordpress
+      #  - mariadb-data:/var/lib/mysql
     container_name: mariadb
     restart: always
     # environment:

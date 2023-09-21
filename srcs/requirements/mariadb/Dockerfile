@@ -33,9 +33,9 @@ RUN /tmp/mariadb.sh
 # RUN service mysql start pas besion de le RUN pusiqu on le demarre avec CMD plus bas
 
 # RUN apt-get update && apt-get install -y gettext-base
-# RUN echo ${DB_NAME} > /tmp/init_db.sql
 
 EXPOSE 3306
 
 #on lance le service mysql et -u pour lancer mysql en tant que user mysql autrement le lance en mode root (pas bien)
-CMD ["mysqld", "-u", "mysql", "--init-file", "/tmp/init_db.sql"]
+# CMD ["mysqld", "-u", "mysql", "--init-file", "/tmp/init_db.sql"]
+CMD ["mysqld", "-u", "mysql", "--init-file", "/tmp/mariadb.sh"]

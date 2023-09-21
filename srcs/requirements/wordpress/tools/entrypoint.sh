@@ -22,7 +22,7 @@ wp core install --allow-root \
 				--admin_user=$WP_ADMIN_NAME \
 				--admin_password=$WP_ADMIN_PWD \
 				--skip-email \
-				--path='/var/www/wordpress'
+				# --path='/var/www/wordpress'
 
 wp user create --allow-root \
 				$WP_USER_NAME \
