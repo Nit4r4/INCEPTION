@@ -12,7 +12,7 @@ ARG DB_ROOT_PASSWORD
 #on copie les fichiers dans le conteneur
 COPY ./conf/my.cnf /etc/mysql/my.cnf
 #on copie le scribt sh pour l executer dans le conteneur
-# COPY ./tools/mariadb.sh /tmp/mariadb.sh
+COPY ./tools/mariadb.sh /tmp/mariadb.sh
 
 #TEST
 # COPY ./tools/init_db.sql.template /tmp/init_db.sql.template
@@ -21,7 +21,7 @@ COPY ./conf/my.cnf /etc/mysql/my.cnf
 RUN apt install vim -y 
 
 #on authorise l execution du script et on le lance depuis le container
-# RUN chmod +x /tmp/mariadb.sh
+RUN chmod +x /tmp/mariadb.sh
 
 #On creer un dossier data et on lui donne les droits pour que mysql puisse y acceder
 #-p permet de creer le dossier parent si il n existe pas et ne fait rien si il existe deja.
@@ -29,14 +29,15 @@ RUN mkdir data && mkdir -p var/run/mysqld/ \
 && chown -R mysql:mysql /var/run/mysqld \
 && chmod 777 /var/run/mysqld
 
-# RUN /tmp/mariadb.sh
+RUN /tmp/mariadb.sh
 #config pour demarrer MySQL 
 # RUN service mysql start pas besion de le RUN pusiqu on le demarre avec CMD plus bas
 
 # RUN apt-get update && apt-get install -y gettext-base
 
 # Copy the SQL script into the container
-COPY /tools/init.sql /tmp/init.sql
+# COPY /tools/init.sql /tmp/init.sql
+# COPY /tools/init_db.sql /tmp/init_db.sql
 
 # Run the SQL script
 # RUN mysql < /tmp/init.sql
@@ -50,6 +51,6 @@ COPY /tools/init.sql /tmp/init.sql
 EXPOSE 3306
 
 #on lance le service mysql et -u pour lancer mysql en tant que user mysql autrement le lance en mode root (pas bien)
-# CMD ["mysqld", "-u", "mysql", "--init-file", "/tmp/init_db.sql"]
+CMD ["mysqld", "-u", "mysql", "--init-file", "/tmp/init_db.sql"]
 # CMD ["mysqld", "-u", "mysql", "--init-file", "/tmp/mariadb.sh"]
-ENTRYPOINT ["mysqld", "-u", "mysql", "--init-file", "/init.sql"]
+# ENTRYPOINT ["mysqld", "-u", "mysql", "--init-file", "/init.sql"]
