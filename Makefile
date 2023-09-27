@@ -35,7 +35,7 @@ run:
 
 # Stop and remove Docker containers
 stop:
-	echo "⬇️  Stoping and cleaning... ⬇️ "
+	@echo "⬇️  Stoping and cleaning... ⬇️ "
 	@docker-compose -f $(COMPOSE_FILE) down -v --remove-orphans
 
 # Clean up Docker images, volumes, and networks
