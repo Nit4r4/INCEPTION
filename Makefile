@@ -48,12 +48,12 @@ clean: stop ok
 	@echo "Stop and clean network ✅"
 	@echo ""
 
+#	@echo "yes" | docker images prune -a si besoin
 fclean: clean ok
 	@echo "⬇️  Stoping and cleaing ... ⬇️ "
 	@docker-compose -f $(COMPOSE_FILE) rm -f
 	@docker image prune -f
 	@echo "Stop and clean image ✅"
-	@echo ""
 	@docker system prune -f
 	@echo "Stop and clean system ✅"
 
