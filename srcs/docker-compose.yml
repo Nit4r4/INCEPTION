@@ -47,7 +47,7 @@ services:
     #   DB_USER: ${DB_USER}
     #   DB_PASSWORD: ${DB_PASSWORD}
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${DB_ROOT_PASSWORD}"]
       interval: 2s
       timeout: 10s  # wait for mariadb to be ready
       retries: 4

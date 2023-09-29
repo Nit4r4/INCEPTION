@@ -19,7 +19,7 @@ wp config create --allow-root \
 				 --dbpass=$DB_PASSWORD \
 				 --dbhost=$DB_HOST:3306 \
 				 --path='/var/www/wordpress'
-				 --config-file='/var/www/wordpress/wp-congig.php'
+				#--config-file='/var/www/wordpress/wp-congig.php'
 				# --dbhost=mariadb:3306 \ #si on utilise le nom du service dans le docker-compose
 
 # echo "wp config create command executed successfully"
