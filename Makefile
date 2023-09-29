@@ -52,7 +52,7 @@ clean: stop ok
 fclean: clean ok
 	@echo "⬇️  Stoping and cleaing ... ⬇️ "
 	@docker-compose -f $(COMPOSE_FILE) rm -f
-	@docker image prune -f
+	@docker image prune -af
 	@echo "Stop and clean image ✅"
 	@docker system prune -f
 	@echo "Stop and clean system ✅"
