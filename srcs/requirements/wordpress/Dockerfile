@@ -31,6 +31,9 @@ COPY ./tools/ /usr/local/bin
 COPY ./tools/entrypoint.sh /usr/local/bin/entrypoint.sh
 # RUN /usr/local/bin/entrypoint.sh # pas besoin, normalmeent WP le fait authomatiquement
 
+# RUN touch /var/www/wordpress/wp-config.php
+# COPY  /usr/local/bin/wp /var/www/wordpress/wp-config.php 
+
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
 EXPOSE 9000
@@ -38,3 +41,4 @@ EXPOSE 9000
 
 #lance le script d'entrée dans le container qui lance php-fpm7.3 --nodaemonize et le service mysql start.
 CMD ["/usr/local/bin/entrypoint.sh"] 
+# ENTRYPOINT ["/usr/local/bin/entrypoint.sh"] 
