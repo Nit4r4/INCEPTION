@@ -26,8 +26,8 @@ ok:
 # Build Docker images using docker-compose
 build:
 	@echo "⬇️  Building ... ⬇️"
-	@mkdir -p ${HOME}/data/wordpress-data
-	@mkdir -p ${HOME}/data/mariadb-data
+	@mkdir -p /home/vferraro/data/wordpress-data
+	@mkdir -p /home/vferraro/data/mariadb-data
 	@$(DComp) build
 	@echo "Build ✅"
 
@@ -46,9 +46,9 @@ stop:
 clean: stop ok
 	@echo "⬇️  Stoping and cleaing... ⬇️ "
 	@$(DComp) rm -f
-	@rm -rf ${HOME}/data/wordpress-data
-	@rm -rf ${HOME}/data/mariadb-data
-	@docker volume prune -f
+	@rm -rf /home/vferraro/data/wordpress-data
+	@rm -rf /home/vferraro/data/mariadb-data
+	@docker volume prune -af
 	@echo "Stop and clean volume ✅"
 	@docker network prune -f
 	@echo "Stop and clean network ✅"
@@ -58,8 +58,8 @@ clean: stop ok
 fclean: clean ok
 	@echo "⬇️  Stoping and cleaing ... ⬇️ "
 	@$(DComp) rm -f
-	@rm -rf ${HOME}/data/wordpress-data
-	@rm -rf ${HOME}/data/mariadb-data
+	@rm -rf /home/vferraro/data/wordpress-data
+	@rm -rf /home/vferraro/data/mariadb-data
 	@docker image prune -af
 	@echo "Stop and clean image ✅"
 	@docker system prune -f

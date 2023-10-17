@@ -41,11 +41,6 @@ services:
        - mariadb-data:/var/lib/mysql
     container_name: mariadb
     restart: always
-    # environment:
-    #   DB_NAME: ${DB_NAME}
-    #   DB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
-    #   DB_USER: ${DB_USER}
-    #   DB_PASSWORD: ${DB_PASSWORD}
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${DB_ROOT_PASSWORD}"]
       interval: 2s
@@ -74,26 +69,19 @@ services:
     networks:
       - inceptionNetwork
 
-# volumes:
-#   wp-volume:
-#     driver: local
-#   mariadb-data: /home/vferraro/data/mariadb-data
-#   wordpress-data: /home/vferraro/data/wordpress-data
-#   nginx-conf: /home/vferraro/data/
-
 volumes:
   wordpress-data:
     name: wordpress-data
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: '${HOME}/data/wordpress-data'
+      device: '/home/vferraro/data/wordpress-data'
   mariadb-data:
     name: mariadb-data
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: '${HOME}/data/mariadb-data'
+      device: '/home/vferraro/data/mariadb-data'
 
 networks:
   inceptionNetwork:

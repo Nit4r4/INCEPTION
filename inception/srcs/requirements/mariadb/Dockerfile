@@ -34,24 +34,7 @@ RUN /tmp/mariadb.sh
 #config pour demarrer MySQL 
 # RUN service mysql start pas besion de le RUN pusiqu on le demarre avec CMD plus bas
 
-# RUN apt-get update && apt-get install -y gettext-base
-
-# Copy the SQL script into the container
-# COPY /tools/init.sql /tmp/init.sql
-# COPY /tools/init_db.sql /tmp/init_db.sql
-
-# Run the SQL script
-# RUN mysql < /tmp/init.sql
-
-
-# RUN sed -i "s/db/${DB_NAME}/g" /init.sql
-# RUN sed -i "s/rootPwd/${DB_ROOT_PASSWORD}}/g" /init.sql
-# RUN sed -i "s/pwd/${DB_PASSWORD}/g" /init.sql
-# RUN sed -i "s/user/${DB_USER}/g" /init.sql
-
 EXPOSE 3306
 
 #on lance le service mysql et -u pour lancer mysql en tant que user mysql autrement le lance en mode root (pas bien)
 CMD ["mysqld", "-u", "mysql", "--init-file", "/tmp/init_db.sql"]
-# CMD ["mysqld", "-u", "mysql", "--init-file", "/tmp/mariadb.sh"]
-# ENTRYPOINT ["mysqld", "-u", "mysql", "--init-file", "/init.sql"]
