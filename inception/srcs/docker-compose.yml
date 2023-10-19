@@ -75,12 +75,14 @@ volumes:
     driver_opts:
       type: 'none'
       o: 'bind'
+      # device: '${HOME}/data/wordpress-data' // ATTENTION modifier aussi dans le Makefile !
       device: '/home/vferraro/data/wordpress-data'
   mariadb-data:
     name: mariadb-data
     driver_opts:
       type: 'none'
       o: 'bind'
+      # device: '${HOME}/data/mariadb-data' // pour utiliser avec n'importe quel utilisateur
       device: '/home/vferraro/data/mariadb-data'
 
 networks:
