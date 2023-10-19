@@ -1,13 +1,18 @@
 #Logs
-# .env
+.env
 
 #OS generated files
 *.DS_Store
 
 #Archives
-/Users/n1t4r4/Documents/42/INCEPTION/archive
-./archive
-/archive
+/Users/n1t4r4/Documents/42/INCEPTION/Archive
+./Archive
+/Archive
+
+#Files
+/Users/n1t4r4/Documents/42/INCEPTION/fr.subject(1).pdf
+/Users/n1t4r4/Documents/42/INCEPTION/fr.subject\(1\).pdf
+/Users/n1t4r4/Documents/42/INCEPTION/README.md
 
 
 #----------- INFOS ------------#
