@@ -1,0 +1,88 @@
+#docker-compose permet de lier les 3 containers entre eux
+
+version: '3.9'
+
+services:
+
+#---------------------NGINX------------------------#
+
+  nginx:
+    build:
+      context: ./requirements/nginx
+    volumes:
+      - wordpress-data:/var/www/wordpress
+      # - nginx-data:/var/www/nginx #pourquoi pas des nom de volumes differents ? pour securiser mais pas utile ici
+    # image: nginx ATTENTION va chercher l image en ligne, forbidden !
+    #Modifie le nom de l'adresse en ligne
+    container_name: nginx
+    restart: always
+    ports:
+      - "443:443" #port securise externe
+      # - "80:80" #pour le test
+    depends_on:
+      - wordpress
+      - mariadb
+    networks:
+      - inceptionNetwork # network docker qui fait le lien entre les containers
+
+
+#-------------------MARIADB---------------------#
+
+  mariadb:
+    build:
+      context: ./requirements/mariadb
+      args:
+        - DB_NAME=${DB_NAME}
+        - DB_USER=${DB_USER}
+        - DB_PASSWORD=${DB_PASSWORD} # va chercher dans le .env
+        - DB_ROOT_PASSWORD=${DB_ROOT_PASSWORD} # va chercher dans le .env
+    volumes:
+      # - wordpress-data:/var/www/wordpress
+       - mariadb-data:/var/lib/mysql
+    container_name: mariadb
+    restart: always
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${DB_ROOT_PASSWORD}"]
+      interval: 2s
+      timeout: 10s  # wait for mariadb to be ready
+      retries: 4
+      start_period: 10s
+    env_file:
+      - .env
+    networks:
+      - inceptionNetwork
+
+
+#-------------------WORDPRESS---------------------#
+
+  wordpress:
+    build:
+      context: ./requirements/wordpress
+    volumes:
+      - wordpress-data:/var/www/wordpress
+    container_name: wordpress
+    restart: always # ou restart: on-failure
+    env_file:
+      - .env
+    depends_on:
+      - mariadb
+    networks:
+      - inceptionNetwork
+
+volumes:
+  wordpress-data:
+    name: wordpress-data
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '/home/vferraro/data/wordpress-data'
+  mariadb-data:
+    name: mariadb-data
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '/home/vferraro/data/mariadb-data'
+
+networks:
+  inceptionNetwork:
+    driver: bridge
